@@ -1,6 +1,7 @@
 const gulp = require('gulp');
 const svgSprite = require('gulp-svg-sprite');
 const rename = require('gulp-rename');
+const del = require('del');
 
 const config = {
     mode: {
@@ -14,6 +15,10 @@ const config = {
         }
     }
 }
+
+gulp.task('beginClean', function () {
+    return del(['./app/temp/sprite', './app/assets/images/sprites']);
+});
 
 gulp.task('createSprite', function () {
     return gulp.src('./app/assets/images/icons/**/*.svg')
@@ -32,4 +37,8 @@ gulp.task('copySpriteCSS', function () {
         .pipe(gulp.dest('./app/assets/styles/modules'))
 });
 
-gulp.task('icons', gulp.series('createSprite', 'copySpriteGraphic', 'copySpriteCSS'));
+gulp.task('endClean', function () {
+    return del('./app/temp/sprite');
+});
+
+gulp.task('icons', gulp.series('beginClean', 'createSprite', 'copySpriteGraphic', 'copySpriteCSS', 'endClean'));
