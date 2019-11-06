@@ -1,6 +1,8 @@
 var $ = require('jquery');
 var Person = require('./modules/Person');
 
+alert('Testing webpack automation...');
+
 var john = new Person('John Doe', 'blue');
 john.greet();
 
